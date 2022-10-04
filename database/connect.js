@@ -23,7 +23,7 @@ sequelize.authenticate().then(() => {
   console.log('Connection has been established successfully.')
   // process.exit();
 }).catch(err => {
-  console.err('Unable to connect to database...')
+  console.error('Unable to connect to database...', err)
 })
 
 module.exports = {

@@ -1,5 +1,5 @@
 const UserService = require('../service/userService')
-const { verifyPwd, encrypted, createToken, verifyToken } = require('../utils/utils')
+const { verifyPwd, encrypted, createToken, verifyToken, getRandomNum, toLower } = require('../utils/utils')
 
 module.exports = {
   // login
@@ -61,6 +61,7 @@ module.exports = {
       }
     } else {
       userObj.password = await encrypted(userObj.password)
+      userObj.id = 'user'+ '-' + toLower(userObj.firstname) + toLower(userObj.lastname) + '-' + getRandomNum(4)
       const result = await UserService.createUser(userObj)
       if(result) {
         ctx.body = {
@@ -85,7 +86,8 @@ module.exports = {
     const userInfo = await UserService.getUserById(userId)
     const user = {
       id: userInfo.id,
-      username: userInfo.username,
+      firstname: userInfo.firstname,
+      lastname: userInfo.lastname,
       email: userInfo.email
     }
     if(tokenInfo) {

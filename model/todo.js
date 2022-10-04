@@ -12,7 +12,7 @@ Todo.init({
     autoIncrement: true,
   },
   user_id: {
-    type: DataTypes.INTEGER(10).UNSIGNED,
+    type: DataTypes.STRING(50),
     allowNull: false
   },
   title: {

@@ -55,11 +55,27 @@ const getUserId = async (ctx) => {
   return userInfo.id
 }
 
+
+const getRandomNum = (count) => {
+  let numArr = [];
+  for(let i=0; i<count; i++) {
+    let num = Math.floor(Math.random()*10);
+    numArr.push(num)
+  }
+  return numArr.join('')
+}
+
+const toLower = (str) => {
+  return str.toLocaleLowerCase()
+}
+
 module.exports = {
   verifyToken,
   createToken,
   verifyPwd,
   encrypted,
   token_key,
-  getUserId
+  getUserId,
+  getRandomNum,
+  toLower
 }

@@ -1,14 +1,14 @@
 const { DataTypes, Model } = require('sequelize')
 const moment = require('moment')
 const { sequelize } = require('../database/connect')
+const { getRandomNum } = require('../utils/utils')
 
 class User extends Model {}
 
 User.init({
   id: {
-    type: DataTypes.INTEGER(10).UNSIGNED,
-    primaryKey: true,
-    autoIncrement: true,
+    type: DataTypes.STRING(50),
+    primaryKey: true
   },
   firstname: {
     type: DataTypes.STRING(50),
@@ -27,9 +27,13 @@ User.init({
     allowNull: false,
     unique: 'user_email_unique'
   },
-  position: {
+  role: {
     type: DataTypes.STRING,
-    allowNull: false
+    allowNull: true
+  },
+  department: {
+    type: DataTypes.STRING,
+    allowNull: true
   },
   status: {
     type: DataTypes.TINYINT,

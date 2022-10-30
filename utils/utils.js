@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
+const moment = require('moment')
 
 const token_key = 'Percyma'
 const saltRound = 10
@@ -69,6 +70,10 @@ const toLower = (str) => {
   return str.toLocaleLowerCase()
 }
 
+const getDateString = (date) => {
+  return moment(date).format('YYYYMMDD')
+}
+
 module.exports = {
   verifyToken,
   createToken,
@@ -77,5 +82,6 @@ module.exports = {
   token_key,
   getUserId,
   getRandomNum,
-  toLower
+  toLower,
+  getDateString
 }

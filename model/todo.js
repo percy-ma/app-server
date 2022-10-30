@@ -7,9 +7,8 @@ class Todo extends Model {}
 
 Todo.init({
   id: {
-    type: DataTypes.INTEGER(10).UNSIGNED,
-    primaryKey: true,
-    autoIncrement: true,
+    type: DataTypes.STRING(50),
+    primaryKey: true
   },
   user_id: {
     type: DataTypes.STRING(50),

@@ -1,5 +1,5 @@
 const TodoService = require('../service/todoService')
-const { verifyToken, getUserId } = require('../utils/utils')
+const { getUserId, getRandomNum, getDateString } = require('../utils/utils')
 
 module.exports = {
   // get Todo list
@@ -8,7 +8,7 @@ module.exports = {
     const list = await TodoService.getTodoList(user_id);
     ctx.body = {
       result: 'SUCCESS',
-      statusCode: 2000,
+      code: 200,
       msg: 'Get List Success',
       data: list
     }
@@ -17,18 +17,19 @@ module.exports = {
   // add Todo
   addTodo: async (ctx) => {
     const item = ctx.request.body;
+    item.id = 'todo'+ '-' + getDateString(new Date()) + '-' + getRandomNum(4)
     item.user_id = await getUserId(ctx)
     const result = await TodoService.addTodo(item)
     if(result) {
       ctx.body = {
         result: 'SUCCESS',
-        statusCode: 2000,
+        code: 200,
         msg: 'Add Todo Success'
       }
     } else {
       ctx.body = {
         result: 'FAIL',
-        statusCode: 4000,
+        code: 400,
         msg: 'Add Todo Failed'
       }
     }
@@ -43,20 +44,20 @@ module.exports = {
       if(result[0] === 1) {
         ctx.body = {
           result: 'SUCCESS',
-          statusCode: 2000,
+          code: 200,
           msg: 'Update Success'
         }
       } else {
         ctx.body = {
           result: 'FAIL',
-          statusCode: 4000,
+          code: 400,
           msg: 'Update Failed'
         }
       }
     } else {
       ctx.body = {
         result: 'FAIL',
-        statusCode: 4001,
+        code: 500,
         msg: 'Id not exist'
       }
     }
@@ -71,20 +72,20 @@ module.exports = {
       if(result === 1) {
         ctx.body = {
           result: 'SUCCESS',
-          statusCode: 2000,
+          code: 200,
           msg: 'Delete Success'
         }
       } else {
         ctx.body = {
           result: 'FAIL',
-          statusCode: 4000,
+          code: 400,
           msg: 'Delete Failed'
         }
       }
     } else {
       ctx.body = {
         result: 'FAIL',
-        statusCode: 4001,
+        code: 500,
         msg: 'Id not exist'
       }
     }

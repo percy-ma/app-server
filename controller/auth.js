@@ -9,7 +9,8 @@ module.exports = {
     } = ctx.request.body
     if(!email || !password) {
       ctx.body = {
-        status: 'error',
+        result: 'FAIL',
+        code: 400,
         msg: `The email and password can't be empty`
       }
       return
@@ -22,28 +23,31 @@ module.exports = {
         username: user.getDataValue("username")
       }
       const flag = await verifyPwd(password, encryPwd)
-      const token = createToken(userInfo)
+      const tokenInfo = {
+        token: createToken(userInfo, '6h'),
+        expire_in: 6 * 60 * 60
+      }
       if(flag) {
         ctx.body = {
           result: 'SUCCESS',
-          statusCode: 2000,
+          code: 200,
           msg: 'Login Succeed!',
           data: {
             userInfo,
-            token
+            tokenInfo
           }
         }
       } else {
         ctx.body = {
           result: 'FAIL',
-          statusCode: 4000,
+          code: 400,
           msg: 'Error'
         }
       }
     } else {
       ctx.body = {
         result: 'FAIL',
-        statusCode: 4001,
+        code: 500,
         msg: 'Please check the email'
       }
     }
@@ -56,7 +60,7 @@ module.exports = {
     if(user !== null) {
       ctx.body = {
         result: 'FAIL',
-        statusCode: 4001,
+        code: 500,
         msg: 'The email already exist'
       }
     } else {
@@ -66,13 +70,13 @@ module.exports = {
       if(result) {
         ctx.body = {
           result: 'SUCCESS',
-          statusCode: 2000,
+          code: 200,
           msg: 'Sign up success'
         }
       } else {
         ctx.body = {
           result: 'FAIL',
-          statusCode: 4000,
+          code: 400,
           msg: 'Sign up failed'
         }
       }
@@ -93,7 +97,7 @@ module.exports = {
     if(tokenInfo) {
       ctx.body = {
         result: 'SUCCESS',
-        statusCode: 2000,
+        code: 200,
         msg: 'Login Success',
         data: {
           user
@@ -102,7 +106,7 @@ module.exports = {
     } else {
       ctx.body = {
         result: 'FAIL',
-        statusCode: 4000,
+        code: 400,
         msg: 'Token expired'
       }
     }
@@ -114,14 +118,14 @@ module.exports = {
     if(user !== null) {
       ctx.body = {
         result: 'SUCCESS',
-        statusCode: 2000,
+        code: 200,
         msg: 'Success',
         data: user
       }
     } else {
       ctx.body = {
         result: 'FAIL',
-        statusCode: 4000,
+        code: 400,
         msg: 'Email not exist'
       }
     }
